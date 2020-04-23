@@ -9,6 +9,8 @@ in RRD files.
 This image allows you to run collectd in a completelly containerized
 environment
 
+Source: https://github.com/rooty0/docker-collectd
+
 This is fork of https://github.com/fr3nd/docker-collectd
 
 ## How to use this image
@@ -30,6 +32,24 @@ docker run \
   -v /etc/collectd:/etc/collectd:ro \
   -v /proc:/mnt/proc:ro \
   rooty0/collectd
+```
+
+Docker compose example:
+```
+version: '2.1'
+
+services:
+
+  collectd:
+    image: rooty0/collectd
+    restart: always
+    privileged: true
+    #  https://docs.docker.com/compose/compose-file/#host-or-none
+    #  https://docs.docker.com/compose/compose-file/#network_mode
+    network_mode: "host"
+    volumes:
+      - /proc:/mnt/proc:ro
+      - ./volume/etc/collectd/collectd.conf:/etc/collectd/collectd.conf
 ```
 
 ## FAQ

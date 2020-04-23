@@ -1,5 +1,7 @@
 FROM debian:stretch
 
+ENV DEBIAN_FRONTEND="noninteractive"
+
 RUN apt-get update && apt-get install -y \
       autoconf \
       automake \
@@ -34,6 +36,7 @@ RUN apt-get update && apt-get install -y \
       librrd-dev \
       libsensors4-dev \
       libsnmp-dev \
+      libatasmart-dev \
       libtokyocabinet-dev \
       libtokyotyrant-dev \
       libtool \
@@ -44,14 +47,15 @@ RUN apt-get update && apt-get install -y \
       linux-libc-dev \
       pkg-config \
       protobuf-c-compiler \
-      python-dev
+      python-dev \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
 
 ENV COLLECTD_VERSION collectd-5.8.0
 
-WORKDIR /usr/src
-RUN git clone https://github.com/collectd/collectd.git
+RUN git clone --branch $COLLECTD_VERSION --depth 1 https://github.com/collectd/collectd.git /usr/src/collectd
+
 WORKDIR /usr/src/collectd
-RUN git checkout $COLLECTD_VERSION
 RUN ./build.sh
 RUN ./configure \
     --prefix=/usr \
