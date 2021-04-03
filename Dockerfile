@@ -51,7 +51,7 @@ RUN apt-get update && apt-get install -y \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
-ENV COLLECTD_VERSION collectd-5.9.2
+ENV COLLECTD_VERSION collectd-5.10.0
 
 RUN git clone --branch $COLLECTD_VERSION --depth 1 https://github.com/collectd/collectd.git /usr/src/collectd
 
